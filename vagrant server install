@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config| # Vagrant 버전 설정
       vmware__vmnet:"vmnet8" # 특정 네트워크 인터페이스 지정
     
     if Vagrant.has_plugin?("vagrant-disksize") # vagrant-disksize 플러그인 설치 여부 확인
-        node.disksize = 60000 # 디스크 크기 설정 (단위 : MB)
+        node.disksize = "60GB" # 디스크 크기 설정 (단위 : MB)
     end
 
     node.vm.provider "vmware_desktop" do |v| # VMware 프로바이더 설정
@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config| # Vagrant 버전 설정
       vmware__vmnet:"vmnet8" 
 
     if Vagrant.has_plugin?("vagrant-disksize") # vagrant-disksize 플러그인 설치 여부 확인
-        node.disksize = 50000 # 디스크 크기 설정 (단위 : MB)
+        node.disksize = "50GB" # 디스크 크기 설정 (단위 : MB)
     end
 
     node.vm.provider "vmware_desktop" do |v| 
@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config| # Vagrant 버전 설정
       vmware__vmnet:"vmnet8"
 
     if Vagrant.has_plugin?("vagrant-disksize") # vagrant-disksize 플러그인 설치 여부 확인
-        node.disksize = 50000 # 디스크 크기 설정 (단위 : MB)
+        node.disksize = "50GB" # 디스크 크기 설정 (단위 : MB)
     end
 
     node.vm.provider "vmware_desktop" do |v|
