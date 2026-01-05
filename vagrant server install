@@ -1,0 +1,58 @@
+Vagrant.configure("2") do |config| # Vagrant 버전 설정
+  config.vm.box = "bento/rockylinux-9" # OS 이미지 설정
+  config.vm.define "Control-plane" do |node| # 서버에 대한 이름 설정
+    node.vm.hostname = "Control-plane" # 호스트 네임 설정
+    node.vm.network "public_network", 
+      ip: "" # IP 설정 (Pri : host-only, Pub : briged, 설정 안할 시 NAT)
+    node.vm.network "private_network",
+      ip: "192.168.111.100", # IP 설정 (Pri : host-only, Pub : briged, 설정 안할 시 NAT)
+      vmware__vmnet:"vmnet8" # 특정 네트워크 인터페이스 지정
+    
+    if Vagrant.has_plugin?("vagrant-disksize") # vagrant-disksize 플러그인 설치 여부 확인
+        node.disksize = 60000 # 디스크 크기 설정 (단위 : MB)
+    end
+
+    node.vm.provider "vmware_desktop" do |v| # VMware 프로바이더 설정
+      v.gui = false # GUI 모드 비활성화
+      v.memory = 2048 # 메모리 설정
+      v.cpus = 2 # CPU 코어 설정
+      v.linked_clone = true # 디스크 프로바이저 설정 (True : 씬 프로비저닝, False : 씩 프로비저닝)
+    end
+  end
+
+  config.vm.define "workenode-1" do |node|
+    node.vm.hostname = "workernode-1" 
+    node.vm.network "private_network",
+      ip: "192.168.111.101", 
+      vmware__vmnet:"vmnet8" 
+
+    if Vagrant.has_plugin?("vagrant-disksize") # vagrant-disksize 플러그인 설치 여부 확인
+        node.disksize = 50000 # 디스크 크기 설정 (단위 : MB)
+    end
+
+    node.vm.provider "vmware_desktop" do |v| 
+      v.gui = false 
+      v.memory = 5120 
+      v.cpus = 1 
+      v.linked_clone = true 
+    end
+  end
+
+  config.vm.define "workernode-2" do |node|
+    node.vm.hostname = "workernode-2"
+    node.vm.network "private_network", 
+      ip: "192.168.111.102",
+      vmware__vmnet:"vmnet8"
+
+    if Vagrant.has_plugin?("vagrant-disksize") # vagrant-disksize 플러그인 설치 여부 확인
+        node.disksize = 50000 # 디스크 크기 설정 (단위 : MB)
+    end
+
+    node.vm.provider "vmware_desktop" do |v|
+      v.gui = false
+      v.memory = 5120
+      v.cpus = 1
+      v.linked_clone = true
+    end
+  end
+end
